@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+lib/
+*.js.map
+
+# Coverage
+coverage/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Test artifacts
+__tests__/__snapshots__/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Misc
+*.tgz
+licenses.txt

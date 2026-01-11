@@ -1,0 +1,95 @@
+name: 'Gemini PR Description'
+description: 'Automatically generate rich pull request descriptions using Google Gemini AI'
+author: 'Your Name'
+branding:
+  icon: 'edit-3'
+  color: 'blue'
+
+inputs:
+  gemini_api_key:
+    description: 'Google Gemini API key for authentication'
+    required: true
+  
+  github_token:
+    description: 'GitHub token for API access. Uses the default GITHUB_TOKEN if not provided.'
+    required: false
+    default: ${{ github.token }}
+  
+  model:
+    description: 'Gemini model to use for generation (e.g., gemini-3-flash, gemini-2.0-flash, gemini-1.5-pro)'
+    required: false
+    default: 'gemini-3-flash'
+  
+  update_mode:
+    description: |
+      How to handle existing PR descriptions:
+      - empty: Only generate if description is empty
+      - append: Add generated content below existing content
+      - replace: Replace the entire description
+      - smart: Replace only previously generated content (between markers)
+    required: false
+    default: 'smart'
+  
+  max_tokens:
+    description: 'Maximum number of tokens for the generated response'
+    required: false
+    default: '8192'
+  
+  temperature:
+    description: 'Temperature for generation (0.0-2.0). Lower = more deterministic'
+    required: false
+    default: '0.7'
+  
+  system_prompt:
+    description: 'Custom system prompt for description generation. Leave empty to use the built-in prompt.'
+    required: false
+    default: ''
+  
+  custom_instructions:
+    description: 'Additional instructions to append to the prompt (e.g., "Focus on security implications")'
+    required: false
+    default: ''
+  
+  include_file_changes:
+    description: 'Include detailed file changes in the context sent to Gemini'
+    required: false
+    default: 'true'
+  
+  include_commit_messages:
+    description: 'Include commit messages in the context sent to Gemini'
+    required: false
+    default: 'true'
+  
+  max_diff_size:
+    description: 'Maximum number of characters for diff context (to avoid token limits)'
+    required: false
+    default: '50000'
+  
+  exclude_patterns:
+    description: 'Comma-separated glob patterns to exclude files from diff (e.g., "*.lock,*.min.js")'
+    required: false
+    default: ''
+  
+  generation_marker:
+    description: 'HTML comment marker to identify AI-generated content for smart mode'
+    required: false
+    default: '<!-- gemini-pr-description -->'
+  
+  language:
+    description: 'Language for the generated description (e.g., en, es, fr, de, ja, zh)'
+    required: false
+    default: 'en'
+
+outputs:
+  description:
+    description: 'The generated or updated PR description'
+  
+  generated:
+    description: 'Whether a new description was generated (true/false)'
+  
+  model_used:
+    description: 'The Gemini model that was used for generation'
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'

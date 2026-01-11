@@ -1,0 +1,38 @@
+# Example: Using Gemini PR Description on your own PRs
+#
+# This workflow demonstrates how to use this action on pull requests
+# to your own repository.
+
+name: Example - Generate PR Description
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Generate PR Description
+        uses: your-username/gemini-pr-description@v1
+        with:
+          gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
+          # Optional: Customize model
+          # model: gemini-1.5-pro
+          #
+          # Optional: Only update if empty
+          # update_mode: empty
+          #
+          # Optional: Add custom instructions
+          # custom_instructions: |
+          #   Focus on:
+          #   - Security implications
+          #   - Breaking changes
+          #   - Performance impact
+          #
+          # Optional: Exclude certain files
+          # exclude_patterns: "*.lock,*.min.js,dist/**"
