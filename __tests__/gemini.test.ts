@@ -58,6 +58,7 @@ describe('Gemini API Integration', () => {
 
   describe('validateModel', () => {
     it('should not warn for known models', () => {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const core = require('@actions/core');
       
       validateModel('gemini-2.0-flash');
@@ -68,6 +69,7 @@ describe('Gemini API Integration', () => {
     });
 
     it('should warn for unknown non-gemini models', () => {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const core = require('@actions/core');
       core.warning.mockClear();
       
@@ -78,6 +80,7 @@ describe('Gemini API Integration', () => {
     });
 
     it('should not warn for unknown gemini models', () => {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const core = require('@actions/core');
       core.warning.mockClear();
       

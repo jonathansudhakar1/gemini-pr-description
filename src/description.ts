@@ -71,7 +71,7 @@ export function wrapWithMarkers(content: string, marker: string): string {
 export function shouldGenerate(
   currentDescription: string,
   updateMode: UpdateMode,
-  marker: string
+  _marker: string
 ): { shouldGenerate: boolean; reason: string } {
   const trimmedDescription = currentDescription.trim();
   

@@ -66,7 +66,7 @@ export async function fetchPRDiff(
     }));
   
   // Calculate total diff size and truncate if needed
-  let totalDiffSize = files.reduce((sum, f) => sum + (f.patch?.length || 0), 0);
+  const totalDiffSize = files.reduce((sum, f) => sum + (f.patch?.length || 0), 0);
   
   if (totalDiffSize > maxDiffSize) {
     core.info(`Diff size (${totalDiffSize}) exceeds max (${maxDiffSize}), truncating patches`);
