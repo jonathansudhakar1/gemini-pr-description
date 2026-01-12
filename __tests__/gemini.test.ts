@@ -61,10 +61,10 @@ describe('Gemini API Integration', () => {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const core = require('@actions/core');
       
-      validateModel('gemini-2.0-flash');
+      validateModel('gemini-3-flash-preview');
       expect(core.warning).not.toHaveBeenCalled();
       
-      validateModel('gemini-1.5-pro');
+      validateModel('gemini-2.5-pro');
       expect(core.warning).not.toHaveBeenCalled();
     });
 
@@ -93,9 +93,9 @@ describe('Gemini API Integration', () => {
     it('should return list of known models', () => {
       const models = getAvailableModels();
       
+      expect(models).toContain('gemini-3-flash-preview');
+      expect(models).toContain('gemini-2.5-pro');
       expect(models).toContain('gemini-2.0-flash');
-      expect(models).toContain('gemini-1.5-pro');
-      expect(models).toContain('gemini-1.5-flash');
       expect(Array.isArray(models)).toBe(true);
       expect(models.length).toBeGreaterThan(0);
     });

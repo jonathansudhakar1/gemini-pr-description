@@ -22,7 +22,7 @@ import {
 function parseInputs(): ActionInputs {
   const geminiApiKey = core.getInput('gemini_api_key', { required: true });
   const githubToken = core.getInput('github_token', { required: true });
-  const model = core.getInput('model') || 'gemini-3-flash';
+  const model = core.getInput('model') || 'gemini-3-flash-preview';
   const updateMode = (core.getInput('update_mode') || 'smart') as UpdateMode;
   const maxTokens = parseInt(core.getInput('max_tokens') || '8192', 10);
   const temperature = parseFloat(core.getInput('temperature') || '0.7');

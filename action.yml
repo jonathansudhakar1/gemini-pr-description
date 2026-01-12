@@ -16,9 +16,9 @@ inputs:
     default: ${{ github.token }}
   
   model:
-    description: 'Gemini model to use for generation (e.g., gemini-3-flash, gemini-2.0-flash, gemini-1.5-pro)'
+    description: 'Gemini model to use for generation (e.g., gemini-3-flash-preview, gemini-3-pro-preview, gemini-2.5-flash)'
     required: false
-    default: 'gemini-3-flash'
+    default: 'gemini-3-flash-preview'
   
   update_mode:
     description: |
