@@ -6,7 +6,7 @@ Thank you for your interest in contributing! This document provides guidelines f
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/gemini-pr-description.git
+   git clone https://github.com/jonathansudhakar1/gemini-pr-description.git
    cd gemini-pr-description
    ```
 

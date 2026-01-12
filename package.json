@@ -24,7 +24,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/gemini-pr-description.git"
+    "url": "https://github.com/jonathansudhakar1/gemini-pr-description.git"
   },
   "dependencies": {
     "@actions/core": "^1.10.1",

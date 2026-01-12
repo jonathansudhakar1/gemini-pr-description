@@ -18,7 +18,7 @@ jobs:
     
     steps:
       - name: Generate PR Description
-        uses: your-username/gemini-pr-description@v1
+        uses: jonathansudhakar1/gemini-pr-description@v1
         with:
           gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
           # Optional: Customize model

@@ -2,11 +2,11 @@
 
 [![GitHub Marketplace](https://img.shields.io/badge/Marketplace-Gemini%20PR%20Description-blue?logo=github)](https://github.com/marketplace/actions/gemini-pr-description)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![Tests](https://github.com/your-username/gemini-pr-description/workflows/Tests/badge.svg)](https://github.com/your-username/gemini-pr-description/actions)
+[![Tests](https://github.com/jonathansudhakar1/gemini-pr-description/workflows/Tests/badge.svg)](https://github.com/jonathansudhakar1/gemini-pr-description/actions)
 
 Automatically generate rich, comprehensive pull request descriptions using Google Gemini AI.
 
-![Demo](https://raw.githubusercontent.com/your-username/gemini-pr-description/main/demo.gif)
+![Demo](https://raw.githubusercontent.com/jonathansudhakar1/gemini-pr-description/main/demo.gif)
 
 ## Features
 
@@ -50,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Generate PR Description
-        uses: your-username/gemini-pr-description@v1
+        uses: jonathansudhakar1/gemini-pr-description@v1
         with:
           gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
 ```
@@ -100,7 +100,7 @@ That's it! The action will now automatically generate descriptions for new PRs a
 ### Basic Usage
 
 ```yaml
-- uses: your-username/gemini-pr-description@v1
+- uses: jonathansudhakar1/gemini-pr-description@v1
   with:
     gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
 ```
@@ -108,7 +108,7 @@ That's it! The action will now automatically generate descriptions for new PRs a
 ### With Custom Instructions
 
 ```yaml
-- uses: your-username/gemini-pr-description@v1
+- uses: jonathansudhakar1/gemini-pr-description@v1
   with:
     gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
     custom_instructions: |
@@ -119,7 +119,7 @@ That's it! The action will now automatically generate descriptions for new PRs a
 ### Generate in Spanish
 
 ```yaml
-- uses: your-username/gemini-pr-description@v1
+- uses: jonathansudhakar1/gemini-pr-description@v1
   with:
     gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
     language: es
@@ -128,7 +128,7 @@ That's it! The action will now automatically generate descriptions for new PRs a
 ### Only Generate for Empty Descriptions
 
 ```yaml
-- uses: your-username/gemini-pr-description@v1
+- uses: jonathansudhakar1/gemini-pr-description@v1
   with:
     gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
     update_mode: empty
@@ -137,7 +137,7 @@ That's it! The action will now automatically generate descriptions for new PRs a
 ### Use Different Model
 
 ```yaml
-- uses: your-username/gemini-pr-description@v1
+- uses: jonathansudhakar1/gemini-pr-description@v1
   with:
     gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
     model: gemini-1.5-pro
@@ -146,7 +146,7 @@ That's it! The action will now automatically generate descriptions for new PRs a
 ### Exclude Lock Files
 
 ```yaml
-- uses: your-username/gemini-pr-description@v1
+- uses: jonathansudhakar1/gemini-pr-description@v1
   with:
     gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
     exclude_patterns: "*.lock,package-lock.json,yarn.lock"
@@ -165,7 +165,7 @@ jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
-      - uses: your-username/gemini-pr-description@v1
+      - uses: jonathansudhakar1/gemini-pr-description@v1
         with:
           gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
           update_mode: smart

@@ -38,7 +38,7 @@ on:
 - uses: actions/checkout@v4
   with:
     ref: ${{ github.event.pull_request.head.ref }}
-- uses: your-username/gemini-pr-description@v1
+- uses: jonathansudhakar1/gemini-pr-description@v1
 ```
 
 The checkout could allow malicious code execution before our action runs.
@@ -94,7 +94,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Generate PR Description
-        uses: your-username/gemini-pr-description@v1
+        uses: jonathansudhakar1/gemini-pr-description@v1
         with:
           gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
 ```
