@@ -6,6 +6,10 @@ import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from '@google/ge
 import * as core from '@actions/core';
 import { GeminiConfig } from './types';
 
+function normalizeModelName(model: string): string {
+  return model.replace(/^models\//, '');
+}
+
 /**
  * Initialize the Gemini client
  */
@@ -22,13 +26,15 @@ export async function generateDescription(
   userPrompt: string
 ): Promise<string> {
   const genAI = initializeGemini(config.apiKey);
+  const normalizedModel = normalizeModelName(config.model);
+  const isGemini3 = normalizedModel.startsWith('gemini-3');
   
   const model = genAI.getGenerativeModel({
     model: config.model,
     systemInstruction: systemPrompt,
     generationConfig: {
       maxOutputTokens: config.maxTokens,
-      temperature: config.temperature,
+      ...(isGemini3 ? {} : { temperature: config.temperature }),
     },
     safetySettings: [
       {
@@ -51,7 +57,10 @@ export async function generateDescription(
   });
 
   core.debug(`Using Gemini model: ${config.model}`);
-  core.debug(`Max tokens: ${config.maxTokens}, Temperature: ${config.temperature}`);
+  core.debug(`Max tokens: ${config.maxTokens}`);
+  if (!isGemini3) {
+    core.debug(`Temperature: ${config.temperature}`);
+  }
 
   const maxRetries = 3;
   let lastError: Error | null = null;
@@ -152,14 +161,16 @@ export function validateApiKey(apiKey: string): void {
  */
 export function getAvailableModels(): string[] {
   return [
+    'gemini-3.7-flash',
+    'gemini-3.6-flash',
+    'gemini-3.5-flash',
+    'gemini-3.5-flash-lite',
+    'gemini-3.1-pro-preview',
+    'gemini-3.1-flash-lite',
     'gemini-3-flash-preview',
-    'gemini-3-pro-preview',
     'gemini-2.5-flash',
-    'gemini-2.5-flash-preview-09-2025',
     'gemini-2.5-flash-lite',
     'gemini-2.5-pro',
-    'gemini-2.0-flash',
-    'gemini-2.0-flash-lite',
   ];
 }
 
@@ -168,9 +179,10 @@ export function getAvailableModels(): string[] {
  */
 export function validateModel(model: string): void {
   const availableModels = getAvailableModels();
+  const normalizedModel = normalizeModelName(model);
   
   // Allow any model name but warn if not in known list
-  if (!availableModels.includes(model) && !model.startsWith('gemini-')) {
+  if (!availableModels.includes(normalizedModel) && !normalizedModel.startsWith('gemini-')) {
     core.warning(`Model '${model}' is not a recognized Gemini model. Known models: ${availableModels.join(', ')}`);
   }
 }

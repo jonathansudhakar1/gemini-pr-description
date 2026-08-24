@@ -10,7 +10,7 @@ Automatically generate rich, comprehensive pull request descriptions using Googl
 
 ## Features
 
-- 🤖 **AI-Powered**: Uses Google Gemini AI (default: `gemini-3-flash-preview`) for intelligent description generation
+- 🤖 **AI-Powered**: Uses Google Gemini AI (default: `gemini-3.7-flash`) for intelligent description generation
 - 📝 **Rich Descriptions**: Generates structured descriptions with summary, changes, type, and testing notes
 - 🔄 **Smart Updates**: Multiple update modes - replace, append, smart (preserves user content), or empty-only
 - 🌍 **Multi-Language**: Generate descriptions in English, Spanish, French, German, Japanese, Chinese, and more
@@ -65,10 +65,10 @@ That's it! The action will now automatically generate descriptions for new PRs a
 |-------|----------|---------|-------------|
 | `gemini_api_key` | ✅ | - | Google Gemini API key |
 | `github_token` | ❌ | `github.token` | GitHub token for API access |
-| `model` | ❌ | `gemini-3-flash-preview` | Gemini model to use |
+| `model` | ❌ | `gemini-3.7-flash` | Gemini model to use |
 | `update_mode` | ❌ | `smart` | How to handle existing descriptions (see below) |
 | `max_tokens` | ❌ | `8192` | Maximum tokens for response |
-| `temperature` | ❌ | `0.7` | Temperature (0.0-2.0) |
+| `temperature` | ❌ | `0.7` | Temperature for models that support sampling parameters (0.0-2.0) |
 | `system_prompt` | ❌ | Built-in | Custom system prompt |
 | `custom_instructions` | ❌ | - | Additional instructions |
 | `include_file_changes` | ❌ | `true` | Include file changes in context |
@@ -140,7 +140,7 @@ That's it! The action will now automatically generate descriptions for new PRs a
 - uses: jonathansudhakar1/gemini-pr-description@v1
   with:
     gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
-    model: gemini-1.5-pro
+    model: gemini-3.6-flash
 ```
 
 ### Exclude Lock Files
@@ -184,14 +184,16 @@ See [SECURITY.md](SECURITY.md) for detailed security information.
 
 ## Available Models
 
-- `gemini-3-flash-preview` (default) - Latest Gemini 3 flash model
-- `gemini-3-pro-preview` - Gemini 3 pro model
+- `gemini-3.7-flash` (default) - Latest stable Gemini Flash model
+- `gemini-3.6-flash` - Previous stable Gemini Flash model
+- `gemini-3.5-flash` - Legacy stable Gemini Flash model
+- `gemini-3.5-flash-lite` - Cost-efficient Gemini Flash-Lite model
+- `gemini-3.1-pro-preview` - Gemini Pro preview model
+- `gemini-3.1-flash-lite` - Stable Gemini Flash-Lite model
+- `gemini-3-flash-preview` - Gemini 3 Flash preview
 - `gemini-2.5-flash` - Gemini 2.5 flash
-- `gemini-2.5-flash-preview-09-2025` - Gemini 2.5 flash preview
 - `gemini-2.5-flash-lite` - Lightweight 2.5 flash
 - `gemini-2.5-pro` - Gemini 2.5 pro
-- `gemini-2.0-flash` - Gemini 2.0 flash
-- `gemini-2.0-flash-lite` - Lightweight 2.0 flash
 
 ## Troubleshooting
 

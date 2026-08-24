@@ -2,7 +2,12 @@
  * Unit tests for Gemini API integration
  */
 
-import { validateApiKey, validateModel, getAvailableModels } from '../src/gemini';
+import {
+  generateDescription,
+  validateApiKey,
+  validateModel,
+  getAvailableModels,
+} from '../src/gemini';
 
 // Mock @actions/core
 jest.mock('@actions/core', () => ({
@@ -38,6 +43,60 @@ jest.mock('@google/generative-ai', () => ({
 }));
 
 describe('Gemini API Integration', () => {
+  describe('generateDescription', () => {
+    it.each(['gemini-3.7-flash', 'models/gemini-3.7-flash'])(
+      'omits unsupported temperature configuration for Gemini 3.7 Flash model ID %s',
+      async model => {
+        await generateDescription(
+          {
+            apiKey: 'this-is-a-valid-length-api-key-12345',
+            model,
+            maxTokens: 8192,
+            temperature: 0.7,
+          },
+          'System prompt',
+          'User prompt'
+        );
+
+        const { GoogleGenerativeAI } = jest.requireMock('@google/generative-ai');
+        const client = GoogleGenerativeAI.mock.results.at(-1).value;
+
+        expect(client.getGenerativeModel).toHaveBeenCalledWith(
+          expect.objectContaining({
+            generationConfig: {
+              maxOutputTokens: 8192,
+            },
+          })
+        );
+      }
+    );
+
+    it('keeps temperature configuration for earlier Gemini models', async () => {
+      await generateDescription(
+        {
+          apiKey: 'this-is-a-valid-length-api-key-12345',
+          model: 'gemini-2.5-flash',
+          maxTokens: 8192,
+          temperature: 0.7,
+        },
+        'System prompt',
+        'User prompt'
+      );
+
+      const { GoogleGenerativeAI } = jest.requireMock('@google/generative-ai');
+      const client = GoogleGenerativeAI.mock.results.at(-1).value;
+
+      expect(client.getGenerativeModel).toHaveBeenCalledWith(
+        expect.objectContaining({
+          generationConfig: {
+            maxOutputTokens: 8192,
+            temperature: 0.7,
+          },
+        })
+      );
+    });
+  });
+
   describe('validateApiKey', () => {
     it('should throw error for empty API key', () => {
       expect(() => validateApiKey('')).toThrow('Gemini API key is required');
@@ -62,6 +121,9 @@ describe('Gemini API Integration', () => {
       const core = require('@actions/core');
       
       validateModel('gemini-3-flash-preview');
+      expect(core.warning).not.toHaveBeenCalled();
+
+      validateModel('models/gemini-3.7-flash');
       expect(core.warning).not.toHaveBeenCalled();
       
       validateModel('gemini-2.5-pro');
@@ -93,9 +155,9 @@ describe('Gemini API Integration', () => {
     it('should return list of known models', () => {
       const models = getAvailableModels();
       
-      expect(models).toContain('gemini-3-flash-preview');
+      expect(models).toContain('gemini-3.7-flash');
+      expect(models).toContain('gemini-3.6-flash');
       expect(models).toContain('gemini-2.5-pro');
-      expect(models).toContain('gemini-2.0-flash');
       expect(Array.isArray(models)).toBe(true);
       expect(models.length).toBeGreaterThan(0);
     });
