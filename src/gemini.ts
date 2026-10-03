@@ -69,7 +69,12 @@ export async function generateDescription(
     try {
       core.debug(`Generation attempt ${attempt}/${maxRetries}`);
       
-      const result = await model.generateContent(userPrompt);
+      // After a RECITATION block, ask for original wording so the retry is less likely to be filtered again
+      const prompt =
+        lastError && isRecitationError(lastError)
+          ? `${userPrompt}\n\n${RECITATION_RETRY_INSTRUCTION}`
+          : userPrompt;
+      const result = await model.generateContent(prompt);
       const response = result.response;
       
       if (!response) {
@@ -106,11 +111,26 @@ export async function generateDescription(
   throw lastError || new Error('Failed to generate description after all retries');
 }
 
+const RECITATION_RETRY_INSTRUCTION =
+  'Write every section in your own words. Do not reproduce template text, checklists, or the existing PR description verbatim.';
+
+/**
+ * Check if Gemini blocked the response for resembling existing content
+ */
+function isRecitationError(error: Error): boolean {
+  return error.message.toLowerCase().includes('recitation');
+}
+
 /**
  * Check if an error is retryable
  */
 function isRetryableError(error: Error): boolean {
   const message = error.message.toLowerCase();
+
+  // Recitation filter is non-deterministic; a reworded retry usually succeeds
+  if (isRecitationError(error)) {
+    return true;
+  }
   
   // Rate limiting
   if (message.includes('rate limit') || message.includes('quota')) {

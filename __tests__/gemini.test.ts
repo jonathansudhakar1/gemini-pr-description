@@ -95,6 +95,37 @@ describe('Gemini API Integration', () => {
         })
       );
     });
+    it('retries with a rewording instruction after a RECITATION block', async () => {
+      const generateContent = jest
+        .fn()
+        .mockRejectedValueOnce(
+          new Error('[GoogleGenerativeAI Error]: Candidate was blocked due to RECITATION')
+        )
+        .mockResolvedValueOnce({ response: { text: () => 'Reworded description' } });
+      const { GoogleGenerativeAI } = jest.requireMock('@google/generative-ai');
+      GoogleGenerativeAI.mockImplementationOnce(() => ({
+        getGenerativeModel: jest.fn().mockReturnValue({ generateContent }),
+      }));
+
+      const result = await generateDescription(
+        {
+          apiKey: 'this-is-a-valid-length-api-key-12345',
+          model: 'gemini-3.7-flash',
+          maxTokens: 8192,
+          temperature: 0.7,
+        },
+        'System prompt',
+        'User prompt'
+      );
+
+      expect(result).toBe('Reworded description');
+      expect(generateContent).toHaveBeenCalledTimes(2);
+      expect(generateContent.mock.calls[0][0]).toBe('User prompt');
+      expect(generateContent.mock.calls[1][0]).toContain('in your own words');
+
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      require('@actions/core').warning.mockClear();
+    });
   });
 
   describe('validateApiKey', () => {

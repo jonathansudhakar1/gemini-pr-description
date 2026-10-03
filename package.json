@@ -1,6 +1,6 @@
 {
   "name": "gemini-pr-description",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "GitHub Action to generate PR descriptions using Google Gemini AI",
   "main": "dist/index.js",
   "scripts": {
